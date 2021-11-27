@@ -1,0 +1,46 @@
+* titular.el 🔠
+Emacs has convenient functions for upcasing and downcasing, but why not title casing? This package provides just that.
+
+** Installation
+This package isn't on MELPA yet.
+
+If you aren't using Doom Emacs, the easiest way is probably to use [[https://github.com/raxod502/straight.el][straight.el]] like this
+#+begin_src emacs-lisp
+(straight-use-package
+ '(titular :type git :host github :repo "hungyiloo/titular.el"))
+#+end_src
+
+If you *are* using Doom like me, put this snippet in your =packages.el=:
+#+begin_src emacs-lisp
+(package! titular
+  :recipe (:host github :repo "hungyiloo/titular.el"))
+#+end_src
+
+Then put this in your =config.el= somewhere:
+#+begin_src emacs-lisp
+(use-package! titular
+  :commands (titlecase-region titlecase-dwim))
+#+end_src
+
+** Usage
+~titlecase-dwim~ will title case the selection region, or the entire line if no region is selected.
+~titlecase-region~ will strictly title case the selected region only.
+
+** Bonus Doom + evil integration
+Put this in your =config.el= somewhere:
+#+begin_src emacs-lisp
+(evil-define-operator my/evil-titlecase-operator (beg end)
+  (interactive "<r>")
+  (save-excursion
+    (set-mark beg)
+    (goto-char end)
+    (titlecase-dwim)))
+
+(after! evil
+  (map! :nv "g`" #'my/evil-titlecase-operator))
+#+end_src
+
+Now in normal mode you can use =g``= to title case a whole line, or in visual mode =g`= to title case the actively selected region.
+
+** Testing
+Execute the bash script =test.sh=, which runs the [[https://www.gnu.org/software/emacs/manual/html_node/ert/index.html][ERT]] tests defined in =titular-test.el=.
