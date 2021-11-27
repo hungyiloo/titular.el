@@ -1,5 +1,5 @@
 * titular.el 🔠
-Emacs has convenient functions for upcasing and downcasing, but why not title casing? This package provides just that.
+Emacs has convenient functions for upcasing and downcasing, but why not title casing? This package provides just that. Based on the code originally developed in [[https://hungyi.net/posts/programmers-way-to-title-case/][this blog post]].
 
 ** Installation
 This package isn't on MELPA yet.
@@ -16,15 +16,23 @@ If you *are* using Doom like me, put this snippet in your =packages.el=:
   :recipe (:host github :repo "hungyiloo/titular.el"))
 #+end_src
 
-Then put this in your =config.el= somewhere:
+Then in your =config.el= somewhere:
 #+begin_src emacs-lisp
 (use-package! titular
   :commands (titlecase-region titlecase-dwim))
 #+end_src
 
-** Usage
+** Usage & examples
 ~titlecase-dwim~ will title case the selection region, or the entire line if no region is selected.
 ~titlecase-region~ will strictly title case the selected region only.
+
+This will convert text to title case like:
+|------------------------------------------------------------------------------+------------------------------------------------------------------------------|
+| original text                                                                | title cased text                                                             |
+|------------------------------------------------------------------------------+------------------------------------------------------------------------------|
+| the quick brown fox jumps over the lazy dog                                  | The Quick Brown Fox Jumps Over the Lazy Dog                                  |
+| "To be, or not to be, that is the question"                                  | "To Be, or Not to Be, That Is the Question"                                  |
+| they told me I could be anything I wanted; so I became an emacs lisp package | They Told Me I Could Be Anything I Wanted; So I Became an Emacs Lisp Package |
 
 ** Bonus Doom + evil integration
 Put this in your =config.el= somewhere:
