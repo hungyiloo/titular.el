@@ -90,6 +90,8 @@
 (defun titlecase-region (begin end)
   "Convert text in region from BEGIN to END to title case."
   (interactive "*r")
+  (unless (region-active-p)
+    (user-error "There is no region selected"))
   (let ((pt (point)))
     (insert (titlecase-string (delete-and-extract-region begin end)))
     (goto-char pt)))
