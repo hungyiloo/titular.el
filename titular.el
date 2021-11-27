@@ -91,10 +91,8 @@
   "Convert text in region from BEGIN to END to title case."
   (interactive "*r")
   (unless (region-active-p)
-    (user-error "There is no region selected"))
-  (let ((pt (point)))
-    (insert (titlecase-string (delete-and-extract-region begin end)))
-    (goto-char pt)))
+    (user-error "No region selected"))
+  (titlecase--region begin end))
 
 ;;;###autoload
 (defun titlecase-dwim ()
@@ -103,7 +101,14 @@ If Transient Mark Mode is on and there is an active region, convert
 the region to title case. Otherwise, work on the current line."
   (interactive)
   (if (and transient-mark-mode mark-active)
-      (titlecase-region (region-beginning) (region-end))
-    (titlecase-region (point-at-bol) (point-at-eol))))
+      (titlecase--region (region-beginning) (region-end))
+    (titlecase--region (point-at-bol) (point-at-eol))))
+
+(defun titlecase--region (begin end)
+  "Convert text in region from BEGIN to END to title case,
+regardless of region active state."
+  (let ((pt (point)))
+    (insert (titlecase-string (delete-and-extract-region begin end)))
+    (goto-char pt)))
 
 (provide 'titular)
