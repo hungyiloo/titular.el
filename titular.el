@@ -1,10 +1,24 @@
-;;; titular.el --- convert text to title case -*- lexical-binding: t; -*-
+;;; titular.el --- Convert text to titlecase -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2021-2022  Hung-Yi Loo
+
+;; Author: Hung-Yi Loo
+;; URL: https://github.com/hungyiloo/titular.el
+;; Keywords: lisp
+;; Version: 1.0.0
+;; Package-Requires: ((emacs "25.1"))
+
+;;; Commentary:
+
+;; Provides basic titlecasing commands.
 
 (require 'cl-lib)
 (require 'subr-x)
 
+;;; Code:
+
 ;;;###autoload
-(defun titlecase-string (str)
+(defun titular-titlecase-string (str)
   "Convert string STR to title case and return the resulting string."
   (let* ((case-fold-search nil)
          (str-length (length str))
@@ -51,7 +65,7 @@
                                                result
                                                (if ignore-segment-p
                                                    segment-string                                   ; pop segment onto the result without processing
-                                                 (titlecase--segment segment-string capitalize-p))) ; titlecase the segment before popping onto result
+                                                 (titular--titlecase-segment segment-string capitalize-p))) ; titlecase the segment before popping onto result
                                             result))
                     (next-segment         (unless pop-p segment))
                     (will-be-first-word-p (if pop-p
@@ -68,8 +82,8 @@
                    nil))))  ; are we inside of a filesystem path?
     (aref final-state 0)))
 
-(defun titlecase--segment (segment capitalize-p)
-  "Convert a title's inner SEGMENT to capitalized or lower case depending on CAPITALIZE-P, then return the result."
+(defun titular--titlecase-segment (segment capitalize-p)
+  "Process a title's inner SEGMENT depending on CAPITALIZE-P."
   (let* ((case-fold-search nil)
          (ignore-chars '(?' ?\" ?\( ?\[ ?‘ ?“ ?’ ?” ?_))
          (final-state (cl-reduce
@@ -87,28 +101,29 @@
       (apply #'string))))
 
 ;;;###autoload
-(defun titlecase-region (begin end)
+(defun titular-titlecase-region (begin end)
   "Convert text in region from BEGIN to END to title case."
   (interactive "*r")
   (unless (region-active-p)
     (user-error "No region selected"))
-  (titlecase--region begin end))
+  (titular--titlecase-region begin end))
 
 ;;;###autoload
-(defun titlecase-dwim ()
+(defun titular-titlecase-dwim ()
   "Convert the region or current line to title case.
 If Transient Mark Mode is on and there is an active region, convert
 the region to title case. Otherwise, work on the current line."
   (interactive)
   (if (and transient-mark-mode mark-active)
-      (titlecase--region (region-beginning) (region-end))
-    (titlecase--region (point-at-bol) (point-at-eol))))
+      (titular--titlecase-region (region-beginning) (region-end))
+    (titular--titlecase-region (point-at-bol) (point-at-eol))))
 
-(defun titlecase--region (begin end)
-  "Convert text in region from BEGIN to END to title case,
-regardless of region active state."
+(defun titular--titlecase-region (begin end)
+  "Convert text in region from BEGIN to END to title case."
   (let ((pt (point)))
-    (insert (titlecase-string (delete-and-extract-region begin end)))
+    (insert (titular-titlecase-string (delete-and-extract-region begin end)))
     (goto-char pt)))
 
 (provide 'titular)
+
+;;; titular.el ends here
