@@ -17,8 +17,8 @@ If you *are* using Doom like me, put this snippet in your =packages.el= then run
 #+end_src
 
 ** Usage & examples
-~titlecase-dwim~ will title case the selection region, or the entire line if no region is selected.
-~titlecase-region~ will strictly title case the selected region only.
+~titular-titlecase-dwim~ will title case the selection region, or the entire line if no region is selected.
+~titular-titlecase-region~ will strictly title case the selected region only.
 
 This will convert text to title case like:
 |------------------------------------------------------------------------------+------------------------------------------------------------------------------|
