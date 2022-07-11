@@ -36,7 +36,7 @@ Put this in your =config.el= somewhere:
   (save-excursion
     (set-mark beg)
     (goto-char end)
-    (titlecase-dwim)))
+    (titular-titlecase-dwim)))
 
 (after! evil
   (map! :nv "g`" #'my/evil-titlecase-operator))
